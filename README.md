@@ -9,6 +9,8 @@
 - 알고리즘 문제 난이도는, 컴퓨터공학 학부 과정에서 배우는 기초 내용 정도이다. 
 - 원하는 기업의 기출 문제를 푸는 것도 중요하다.
 
+
+## 필수 개념
 ### 시간 복잡도 : 알고리즘의 성능을 나타내는 척도
 - 특정 크기의 입력에 대하여 알고리즘의 수행 시간을 분석
 - 값이 크게 증가하는 정도
@@ -56,6 +58,8 @@
 
 * 입출력 형식에 맞추는 게 핵심. 요구사항을 꼼꼼히 파악하는 게 중요하다.
 
+
+## 입력과 출력
 ### 기본 출력
 - 일반적인 알고리즘을 풀 때, 표준 출력으로 console.log()를 이용한다.
 ```js
@@ -99,3 +103,140 @@ let input = fs.readFileSync('dev/stdin').toString().split('\n');
 // let input = fs.readFileSync('input.txt').toString().split('\n');
 
 console.log(input);
+```
+
+### fs 모듈을 사용할 수 없는 경우- readline 모듈
+```js
+// readline 객체 만들기
+const rl = require('readline').createInterface({
+  input: process.stdin, // 표준 입력을 받는다. (한 줄 한 줄 키보드 입력을 이용해 명령을 한다.)
+  output: process.stdout  // 표준 출력
+});
+
+let input = [];
+
+rl.on('line', function(line) {
+  // 콘솔 입력 창에서 줄바꿈(Enter) 입력할 때마다 호출
+  input.push(line);
+}).on('close', function() {
+  console.log(input);
+  process.exit();
+});
+```
+
+
+## 코딩 테스트를 위한 자바스크립트 기본 문법 
+### for 반복문
+* 조건에 따라 특정한 코드를 반복하고자 할 때 사용할 수 있는 코드.
+
+- 형태
+```js
+for (초기물; 조건문; 증감문) {
+  // statements
+}
+```
+
+###  while 반복문
+- 형태
+```js
+/*
+블록 내부의 코드가 실행되기 전의 참 혹은 거짓을 판단함.
+*/
+
+while(조건문) {
+  // 실행되는 코드 부분
+}
+```
+###  Number와 String 형태 변환
+```js
+let a = "777";
+let b = Number(a);
+console.log(b); // 77
+
+let a = 777;
+let b = String(a);
+console.log(b) : // '777'
+```
+
+### Array.prototype.reduce()
+* 원소에서 가장 큰 값 / 작은 값 찾기
+* 배열의 모든 원소에 대해 특정한 연산을 순차적으로 사용.
+
+```js
+/*
+reduce() 메서드는 배열의 각 요소에 대해, reducer 함수를 실행한 뒤 하나의 결과를 반환함.
+
+리듀서 : (accumulator, currentValue) => (반환값)
+
+- 배열의 각 원소를 확인하여, 원소를 currentValue에 저장
+- 반환값은 그 이후 원소에 대해 accumulator에 저장
+*/
+
+let data = [5, 2, 9, 8, 4]
+
+// minValue 구하기
+let minValue = data.reduce((a, b) => Mate.min(a,b));
+
+// 원소의 합계 구하기
+let summary = data.reduce((a, b) => a + b)
+console.log(summary); // 28
+```
+
+### 배열 초기화
+- 알고리즘 문제를 풀 때 사용되는 배열 초기화 방식
+
+1) 직접 초기화
+```js
+let arr = [1, 2, 3, 4, 5];
+```
+
+2) new Array와 fill을 이용한 초기화
+- new Array(원소 개수)한 다음 그것들을 0으로 채운다.
+```js
+// 길이가 5이고 모든 월소의 값이 9인 배열 초기화
+let arr = new Array(5).fill(0);
+```
+
+### 집합 자료형
+- 특정한 원소의 등장 여부를 파악할 때 집합 자료형을 효과적으로 사용할 수 있다.
+
+```js
+let mySet = new Set(); //집합 객체 생성
+
+// 여러 개의 원소 삽입
+mySet.add(3);
+mySet.add(5);
+mySet.add(7);
+mySet.add(3);
+
+console.log(`원소의 개수: ${mySet.size}`);
+console.log(`원소 7 포함여부: ${mySet.has(7)}`);
+
+// 원소 5 제거
+mySet.delete(5);
+
+// 원소 하나씩 출력
+for (let item of mySet) console.log(item);
+```
+
+### 소수점 아래 특정 자리에서 반올림
+* 실수를 출력할 때 소수점 아래 특정 자리에서 반올림
+```js
+// 특정 실수에 대하여 toFixed()를 이용해 소수점 아래 둘째 자리까지 출력
+let x = 123.456
+console.log(x.toFixed(2))
+```
+- toFixed 안에서는 반올림하고자 하는 소수점의 위치
+
+### 이스케이프 시퀀스
+- 예약 문자 혹은 특수문자를 출력하기 위한 이스케이프 시퀀스
+
+|시퀀스|문자|
+|---|---|
+| \t | 탭 |
+| \\ | 역 슬래시 |
+| \" | 큰 따옴표 |
+| \' | 작은 따옴표 |
+
+
+
