@@ -299,3 +299,57 @@ let b = parseInt(line[1]);
 ```js
 console.log(a+b);
 ```
+
+### 사칙 연산
+#### 링크 : https://www.acmicpc.net/problem/10869
+#### 내가 만든 답 (오답)
+```js
+let fs = require('fs');
+
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let line = input[0].split(' ');
+
+let A = Number(line[0]);
+
+let B = Number(line[1]);
+
+console.log(A + B);
+console.log(A - B);
+console.log(A * B);
+console.log(A / B);
+console.log(A % B);
+```
+
+### 정답
+```js
+let fs = require('fs');
+
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let line = input[0].split(' ');
+
+let A = Number(line[0]);
+
+let B = Number(line[1]);
+
+console.log(A + B);
+console.log(A - B);
+console.log(A * B);
+console.log(Math.floor(A / B)); // 나눗셈 결과를 정수로 반환
+console.log(A % B);
+```
+
+### 오답 풀이
+- JavaScript에서 / 연산자는 실수 나눗셈을 수행하므로, 결과가 항상 실수(소수점이 있는 숫자)로 반환된다.
+- 문제에서 자연수 나눗셈의 결과를 요구하는 경우, 결과를 자연수로 변환할 필요가 있다.
+
+### 다른 정답
+```js
+var i = require('fs').readFileSync('/dev/stdin').toString().split(' ').map(function(e) { return parseInt(e); });
+console.log(i[0] + i[1]);
+console.log(i[0] - i[1]);
+console.log(i[0] * i[1]);
+console.log(Math.floor(i[0] / i[1]));
+console.log(i[0] % i[1]);
+```
