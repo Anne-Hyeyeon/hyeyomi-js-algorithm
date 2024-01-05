@@ -174,26 +174,7 @@ reduce() 메서드는 배열의 각 요소에 대해, reducer 함수를 실행�
 
 let data = [5, 2, 9, 8, 4]
 
-// minValue 구하기
-let minValue = data.reduce((a, b) => Mate.min(a,b));
-
-// 원소의 합계 구하기
-let summary = data.reduce((a, b) => a + b)
-console.log(summary); // 28
-```
-
-### 배열 초기화
-- 알고리즘 문제를 풀 때 사용되는 배열 초기화 방식
-
-1) 직접 초기화
-```js
-let arr = [1, 2, 3, 4, 5];
-```
-
-2) new Array와 fill을 이용한 초기화
-- new Array(원소 개수)한 다음 그것들을 0으로 채운다.
-```js
-// 길이가 5이고 모든 월소의 값이 9인 배열 초기화
+// minVal원소의 값이 9인 배열 초기화
 let arr = new Array(5).fill(0);
 ```
 
@@ -302,7 +283,7 @@ console.log(a+b);
 
 ### 사칙 연산
 #### 링크 : https://www.acmicpc.net/problem/10869
-#### 내가 만든 답 (오답)
+#### 오답
 ```js
 let fs = require('fs');
 
@@ -321,7 +302,7 @@ console.log(A / B);
 console.log(A % B);
 ```
 
-### 정답
+#### 정답
 ```js
 let fs = require('fs');
 
@@ -340,11 +321,11 @@ console.log(Math.floor(A / B)); // 나눗셈 결과를 정수로 반환
 console.log(A % B);
 ```
 
-### 오답 풀이
+#### 오답 노트
 - JavaScript에서 / 연산자는 실수 나눗셈을 수행하므로, 결과가 항상 실수(소수점이 있는 숫자)로 반환된다.
 - 문제에서 자연수 나눗셈의 결과를 요구하는 경우, 결과를 자연수로 변환할 필요가 있다.
 
-### 다른 정답
+#### 다른 정답 (추후 분석)
 ```js
 var i = require('fs').readFileSync('/dev/stdin').toString().split(' ').map(function(e) { return parseInt(e); });
 console.log(i[0] + i[1]);
@@ -353,3 +334,188 @@ console.log(i[0] * i[1]);
 console.log(Math.floor(i[0] / i[1]));
 console.log(i[0] % i[1]);
 ```
+
+
+### 다른 사람 풀이에서 본 팁
+#### 구조 분해 할당
+```js
+const [A, B] = fs.readFileSync("/dev/stdin").toString().trim().split('\n');
+const [B0, B1, B2] = B.split('');
+```
+입력을 통해 받은 값을, 바로 배열에 할당할 수 있다.
+
+#### 문자 배열
+- 자바스크립트에서 문자열은 일종의 "문자 배열"처럼 동작하며, 특정 인덱스에 위치한 문자에 배열처럼 접근할 수 있다. (이는 문자열이 '문자의 배열'로 취급되기 때문에 가능한 동작임.)
+- 예를 들어, 문자열 str이 "hello"라면, str[0]은 'h', str[1]은 'e'와 같이 각 문자에 접근할 수 있다. 이러한 특성 덕분에 문자열에서 개별 문자를 추출할 때 split('') 메서드를 사용하지 않고도 직접 인덱스를 통해 접근할 수 있다.
+```js
+let str = "hello";
+console.log(str[0]); // 'h'
+console.log(str[1]); // 'e'
+console.log(str[2]); // 'l'
+// 등등...
+```
+
+## JavasScript 조건문 문제 풀이
+### 시험 성적
+#### 링크 : https://acmicpc.net/problem/9498
+#### 오답
+```js
+let fs = require('fs')
+let input = fs.readFileSync('/dev/stdin').toString();
+let score = parseInt(input);
+
+const getGrade = (score) => {
+    if(90<=score<=100) return 'A';
+    if(80<=score<=89) return 'B';
+    if(70<=score<=79) return 'C';
+    if(60<=score<=69) return 'D';
+    return 'F';
+}
+
+console.log(getGrade(score));
+```
+#### 오답 노트 
+- 자바스크립트에서 연속적 비교 연산자를 사용하면, 기대한 대로 작동하지 안흔ㄴ다.
+- 자바스크립트에서 연속 비교는 두 부분으로 나누어 평가된다.
+
+#### 수정한 정답
+```js
+let fs = require('fs')
+let input = fs.readFileSync('/dev/stdin').toString();
+let score = parseInt(input);
+
+const getGrade = (score) => {
+    if (score >= 90 && score <= 100) return 'A';
+    if (score >= 80 && score <= 89) return 'B';
+    if (score >= 70 && score <= 79) return 'C';
+    if (score >= 60 && score <= 69) return 'D';
+    return 'F';
+}
+
+console.log(getGrade(score));
+```
+- 참고로 `else if문`을 써도 동일하게 동작한다. else if문의 경우, 이전 조건들이 모두 거짓일 때만 평가된다.
+
+### 알람 시계
+#### 링크 : https://acmicpc.net/problem/2884
+#### 핵심 아이디어
+1. 현재 시간이 주어졌을 때, 45분을 감소시킨다.
+2. 0분보다 작아지면, hour 1 감소
+3. 0시보다 작아지면, min 23시로 초기화.
+- **문제 풀기 전 핵심 아이디어 확인하기**
+
+#### 정답
+```js
+let fs = require("fs");
+
+const input = fs.readFileSync("/dev/stdin").toString().split(" ");
+
+const inputHour = Number(input[0]);
+const inputMin = Number(input[1]);
+
+const getAlarmTime = (inputHour, inputMin) => {
+  let resultHour = inputHour;
+  let resultMin = inputMin - 45;
+
+  if (resultMin < 0) {
+    resultMin += 60;
+    resultHour -= 1;
+  }
+
+  if (resultHour < 0) {
+    resultHour = 23;
+  }
+
+  return console.log(resultHour, resultMin);
+};
+
+getAlarmTime(inputHour, inputMin);
+```
+
+### 오븐 시계
+#### 링크 : https://www.acmicpc.net/problem/2525
+#### 핵심 아이디어
+ 1. 훈제오리구이를 시작하는 시각과 오븐구이에 필요한 시간을 입력으로 받는다.
+ 2.  이들을 분 단위로 계산하여 최종 시각을 구한다.
+ 3.  여기서 totalMinutes를 사용하여 현재 시각과 필요한 시간을 더하고, 이를 24시간 형식에 맞게 조정한다.
+
+#### 정답 
+```js
+
+```
+
+#### 구조 분해 할당과 map으로 코드 길이를 짧게 해보기.
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin'.toString().split('\n');
+
+let [a, b] = input[0].split(' ').map(Number);
+let c = Number(input[1]);
+```
+
+#### 시간 문제 관련 정보
+- 1440 : 하루는 24시간, 각 시간은 60분. 따라서 하루는 총 1440분
+- hour에다가 60을 곱해 분 형태로 만든 숫자는, 시간 계산에서 하루가 넘어간 시간을 처리하는 데 사용된다.
+
+### 주사위 세 개
+#### 링크 : https://www.acmicpc.net/problem/2480
+#### 핵심 메서드와 문법
+- `Set` 객체 사용 : `Set`은 중복을 허용하지 않는 데이터 구조로, 배열에 있는 모든 중복 원소를 자동으로 제거한다.
+```js
+let numbers = [1, 2, 2, 3, 4, 4, 5, 5];
+
+let uniqueNumbers = [...new Set(numbers)];
+
+console.log(uniqueNumbers); // [1, 2, 3, 4, 5]
+```
+- new Set(numbers)는 numbers 배열의 모든 중복 원소를 제거하여 Set 객체를 생성한다. 그리고 스프레드 연산자 ...를 사용하여 이 Set 객체를 다시 배열로 변환.
+- Math.Max(Array) : 배열 원소 중 가장 큰 값
+- Math.abs(Number) : 절대값 구하기
+- 두 개가 같은 숫자 찾기
+
+
+#### 오답
+```js
+const fs = require('fs');
+
+const numbers = fs.readFileSync('/dev/stdin').toString().split(' ').map(Number);
+
+const [a, b, c] = numbers;
+
+const maxNumber = Math.max(...numbers);
+
+const uniqueNumbers = [...new Set(numbers)];
+
+if (uniqueNumbers.length === 1) {
+    console.log(10000 + a * 1000);
+}
+
+else if (uniqueNumbers.length === 2) {
+    console.log(1000' + (Math.abs(a-b-c) * 100));
+}
+         
+else console.log(maxNumber * 100);
+```
+- uniqueNumbers는 배열이므로 배열의 길이를 비교해줘야 한다.
+- Math.abs(a-b-c)는 내가 의도한 대로 동작하지 않을 것이다. (바보)
+```
+### 정답
+```js
+const fs = require("fs");
+
+const numbers = fs.readFileSync("/dev/stdin").toString().split(" ").map(Number);
+const [a, b, c] = numbers;
+
+const uniqueNumbers = [...new Set(numbers)];
+
+if (uniqueNumbers.length === 1) {
+  console.log(10000 + a * 1000);
+} else if (uniqueNumbers.length === 2) {
+  let sameNumber = a === b ? a : a === c ? a : b;
+  console.log(1000 + sameNumber * 100);
+} else {
+  let maxNumber = Math.max(...numbers);
+  console.log(maxNumber * 100);
+}
+```
+- 애초부터 a,b,c를 비교해가는 게 훨씬 더 효율적일 수도. (굳~이 set을 만들 필요가 없다.)
