@@ -441,8 +441,45 @@ getAlarmTime(inputHour, inputMin);
 
 #### 정답 
 ```js
+let fs = require('fs');
 
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let [hour, min] = input[0].split(' ').map(Number);
+
+let time = Number(input[1])
+
+let getTransferredTime = hour * 60 + min + time;
+
+let resultHour = parseInt(getTransferredTime / 60) % 24;
+
+let resultMin = getTransferredTime % 60;
+
+console.log(resultHour, resultMin);
 ```
+
+#### 해설 속 정답
+```js
+const fs = require('fs');
+const input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let [hour, minute] = input[0].split(' ').map(Number);
+let time = Number(input[1]);
+
+let totalMinute = hour * 60 + minute + time;
+// 총 분을 1440분(24시간)으로 나눈 나머지를 구하여 하루를 초과하는 시간 처리. 
+totalMinute %= 1440;
+hour = parseInt(totalMinute / 60);
+minute = totalMinute % 60;
+
+console.log(hour + ' ' + minute)
+```
+- `totalMinute`는 현재 시각을 분으로 환산한 값.
+- 1440은 하루의 총 분을 나타냄.
+- totalMintue %= 1440은, totalMinutes을 1440으로 나눈 나머지를 구하는 연산임. 결과값은 **0부터 1439**이다.
+- 이는 하루를 넘어가는 시간을 다시 0시 0분부터 시작하는 24시간 형식으로 재설정함.
+- **%으로 얻은 값이 가질 수 있는 범위는, 대상보다 1 적은 값**
+- 시간 계산에서, 단위 관련 문제를 풀 때 유용!
 
 #### 구조 분해 할당과 map으로 코드 길이를 짧게 해보기.
 ```js
@@ -456,6 +493,8 @@ let c = Number(input[1]);
 #### 시간 문제 관련 정보
 - 1440 : 하루는 24시간, 각 시간은 60분. 따라서 하루는 총 1440분
 - hour에다가 60을 곱해 분 형태로 만든 숫자는, 시간 계산에서 하루가 넘어간 시간을 처리하는 데 사용된다.
+- 몫 구하기 : Math.floor 또는 parseInt
+
 
 ### 주사위 세 개
 #### 링크 : https://www.acmicpc.net/problem/2480
@@ -498,7 +537,8 @@ else console.log(maxNumber * 100);
 ```
 - uniqueNumbers는 배열이므로 배열의 길이를 비교해줘야 한다.
 - Math.abs(a-b-c)는 내가 의도한 대로 동작하지 않을 것이다. (바보)
-```
+
+
 ### 정답
 ```js
 const fs = require("fs");
@@ -519,3 +559,9 @@ if (uniqueNumbers.length === 1) {
 }
 ```
 - 애초부터 a,b,c를 비교해가는 게 훨씬 더 효율적일 수도. (굳~이 set을 만들 필요가 없다.)
+
+
+## JavaScript 반복문 문제 풀이
+### 합 (sum)
+#### 링크 : https://www.acmicpc.net/problem/8393
+#### 문제 : 1부터 n까지 합을 출력한다.
