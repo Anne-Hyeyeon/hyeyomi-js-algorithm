@@ -561,7 +561,133 @@ if (uniqueNumbers.length === 1) {
 - 애초부터 a,b,c를 비교해가는 게 훨씬 더 효율적일 수도. (굳~이 set을 만들 필요가 없다.)
 
 
+
 ## JavaScript 반복문 문제 풀이
 ### 합 (sum)
 #### 링크 : https://www.acmicpc.net/problem/8393
 #### 문제 : 1부터 n까지 합을 출력한다.
+
+#### 문제풀이 1 
+##### 핵심 아이디어
+1. 자연수 N의 최대 값은 10,000이다.
+2. 따라서, 단순히 1부터 10,000까지의 값을 차례도 더해도 괜찮다.
+3. 이 경우 시간 복잡도가 O(N)이다.
+
+##### 풀이
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString();
+
+let n = Number(input[0]);
+let summary = 0;
+
+for (let i - 1; i <= n; i++) {
+  sommary += i;
+}
+
+console.log(summary);
+```
+- 문자열을 수로 변환할 때, parseInt에 비하여 Number의 속도가 더 빠르게 동작.
+
+
+#### 문제풀이 2
+##### 핵심 아이디어
+1. 단순히 등차수열의 합 공식을 이용할 수 있다.
+2. 등차수열의 1항부터 제 N항까지의 합을 S<sub>n</sub> 이라고 하자.
+3. 첫째 항이 a, 마지막 항이 l일 때: S<sub>n</sub> = N(a + l)/2
+
+##### 풀이
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString();
+
+let  = Number(input[0]);
+
+// 등차수열의 합 공식
+console.log(n * (n + 1) / 2);
+```
+
+#### 문제풀이 3
+##### 핵심 아이디어 
+- 배열 생성하기
+- reduce 메서드로 누적 합 구하기
+
+##### 풀이
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString();
+
+let n = Number(input[0]);
+
+// Array.from 메서드를 사용하여 1부터 n까지의 숫자 배열을 생성
+let numbers = Array.from({length: n}, (_, i) => i + 1);
+
+// 배열의 reduce 메서드를 사용하여 모든 숫자를 더함
+let summary = numbers.reduce((acc, num) => acc + num, 0);
+
+console.log(summary);
+```
+- Array.from({length: n}, (_, i) => i + 1): 이 부분은 길이가 n인 배열을 생성하고, 각 요소를 1부터 n까지의 숫자로 초기화함.
+- reduce((acc, num) => acc + num, 0): reduce 메서드는 배열의 각 요소에 대해 주어진 리듀서(reducer) 함수를 실행하고, 하나의 결과값을 반환.
+
+### 구구단
+#### 링크 : https://www.acmicpc.net/problem/2739
+#### 문제 : N을 입력받은 뒤, 구구단 N단을 출력하는 프로그램을 작성하시오. 출력 형식에 맞춰서 출력하면 된다.
+#### 정답 
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let number = Number(input[0]);
+
+let numbers = Array.from({ length: 10 }, (_, i) => i);
+
+let summary = numbers.reduce((_, num) =>
+  console.log(`${number} * ${num} = ${number * num} `)
+);
+```
+- reduce 대신 forEach 사용 가능.
+
+#### 해설 속 정답
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let n = Number(input[0]);
+
+for (let i = 1; i <= 9; i++){
+  console.log(`${n} * ${i} =  ${n * i}`);
+}
+```
+
+
+### 별 찍기
+#### 링크 : https://www.acmicpc.net/problem/2438
+#### 문제 : 첫째 줄에는 별 1개, 둘째 줄에는 별 2개, N번째 줄에는 별 N개를 찍는 문제
+#### 정답
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let n = Number(input[0]);
+
+// n만큼의 길이를 가진 배열을 생성하고, 각 줄에 대한 별을 찍는다.
+Array.from({ length: n }, (_, i) => console.log("*".repeat(i + 1)));
+```
+
+- 처음에, Array.from({ length: n }, callback)을 사용하여 길이가 n인 배열을 생성한다. 배열의 각 요소는 undefined가 된다.
+- JavaScript에서 Array.from 메서드를 사용하면, 배열의 각 요소에 대해 콜백 함수를 실행한다.
+- 이 콜백 함수 내에서 console.log를 호출하면, 배열의 각 요소에 대해 console.log가 실행되어 결과를 콘솔에 출력한다.
+- 따라서 console.log("*".repeat(i + 1))는 각 줄에 i + 1개의 별을 출력한다.
+- repeat() 메서드는 문자열을 주어진 횟수만큼 반복하여 새 문자열을 생성한다.
+
+#### 다른 방법
+```js
+// 길이가 n인 배열을 생성하고 초기화
+let arr = Array.from({ length: n });
+
+// forEach를 사용하여 각 요소에 대해 함수를 실행
+arr.forEach((_, i) => console.log("*".repeat(i + 1)));
+```
+
+
