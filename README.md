@@ -690,4 +690,66 @@ let arr = Array.from({ length: n });
 arr.forEach((_, i) => console.log("*".repeat(i + 1)));
 ```
 
+### 빠른 A+B
+#### 링크 : https://www.acmicpc.net/problem/15552
+#### 문제 : 첫 줄에 테스트케이스의 개수 T가 주어진다. T는 최대 1,000,000이다. 다음 T줄에는 각각 두 정수 A와 B가 주어진다. A와 B는 1 이상, 1,000 이하이다. 각 테스트케이스마다 A+B를 한 줄에 하나씩 순서대로 출력한다.
+#### 오답
+```js
+let fs = require("fs");
+let input = fs.readFileSync("/dev/stdin").toString().split("\n");
+
+let caseNum = Number(input[0]);
+
+Array.from({ length: caseNum }).forEach((_, i) => {
+  let [a, b] = input[i + 1].split(" ").map(Number);
+  console.log(a + b);
+});
+```
+- 원인 : 시간 초과
+
+#### 핵심 아이디어
+1. 문자열 변수에 정보를 담은 뒤 한꺼번에 문자열 출력.
+
+#### 해설 속 정답
+```js
+let fs = require("fs");
+let input = fs.readFileSync("/dev/stdin").toString().split("\n");
+
+let testCase = Number(input[0]);
+let answer = '';
+
+for (let t = 1; t <= testCase; t++);{
+  let data = input[t].split(' ');
+let a = Number(data[0]);
+let b = Number(data[1]);
+answer += a + b + '\n';
+}
+
+console.log(answer);
+```
+
+#### readline
+- Node.js에서 대량 데이터 처리를 위해서는 `fs.readFildSync`와 같은 동기식 입출력 대신, 스트림을 사용하는 게 좋다.
+- `스트림` : 데이터를 작은 조각으로 나누어 처리함.
+```js
+let fs = require("fs");
+let readline = require("readline");
+
+let rl = readline.createInterface({
+    input: fs.createReadStream("/dev/stdin"),
+})
+
+let lines = [];
+
+rl.on('line', (line) => {
+  lines.push(line);
+}).on('close', () => {
+  let results = lines.slice(1) 
+    .map(line => line.split(' ').map(Number))
+    .reduce((acc, [a, b]) => acc + (a + b) + "\n", "");
+
+  console.log(results);
+});
+```
+
 
