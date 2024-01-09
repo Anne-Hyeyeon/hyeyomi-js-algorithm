@@ -832,4 +832,31 @@ console.log(minValue + " " + maxValue);
 - 이후 반복에서 a는 이전 반복의 결과값(누적된 최솟값), b는 다음 배열 요소다. 
 
 
+### 최댓값
+#### 링크 : https://www.acmicpc.net/problem/10818
+#### 오답
+```js
+let fs = require('fs');
 
+let input = fs.readFileSync('/dev/stdin').toString().split('\n').map(Number);
+
+let maxNumber = Math.max(...input);
+
+let answer = `${maxNumber}\n${input.findIndex((num)=>num === maxNumber + 1)}`
+
+console.log(answer);
+```
+- input.findIndex((num) => num === maxNumber + 1) 부분에서 문제가 있다. 어떤 부분에서 실수했는지는 굳이 적지 않겠다... 😠
+- +1을 오른쪽 소괄호 밖으로 옮겨주면 정답이 된다.
+
+#### 다른 팁
+```js
+const input = require("fs")
+  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./input.txt")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((el) => +el); // 숫자로 변환
+```
+
+ 
