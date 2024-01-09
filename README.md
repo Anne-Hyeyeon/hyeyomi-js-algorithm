@@ -752,4 +752,84 @@ rl.on('line', (line) => {
 });
 ```
 
+## JavaScript 배열 문제 풀이
+### 최소, 최대
+#### 링크 : https://www.acmicpc.net/problem/10818
+#### 오답
+```js
+let fs = require("fs");
+
+let input = fs.readFileSync("/dev/stdin").toString().split("\n");
+
+let number = Number(input[0]);
+
+let arr = Array.from({ length: number }, () => input[1].map(Number));
+
+let answer = `${Math.min(arr)} ${Math.max(arr)}`;
+
+console.log(answer); // NaN NaN
+```
+
+- input(1).map(Number)의 사용 : `input[1]`은 문자열이다. 따라서 `.map(Number)`를 직접 사용할 수 없다. 대신, 문자열을 공백 기준으로 분할한 후 map(Number)를 사용해야 한다.
+- Array.from 의 사용법 : Array.from은 기본적으로 array-like object(문자열, nodeList, arguments)를 배열로 만드는 데 사용된다. 
+- Math.max와 Math.min의 사용법 : 배열 내 요소를 확인하는 경우 스프레드 연산자 사용해야 함.
+
+#### 다른 사람의 풀이
+```js
+let a = require("fs").readFileSync("/dev/stdin", "utf8").split("\n")[1].split(' ')
+console.log(Math.min(...a), Math.max(...a))
+```
+- 숫자의 개수를 가져올 필요도 없다. 바로 배열 내 요소를 Math.min과 Math.max를 이용해서 비교할 수 있음.
+
+#### 해설 풀이 1
+##### 핵심 아이디어
+1. 배열의 원소를 **하나씩 확인**하여, 최댓값과 최솟값을 찾는다.
+2. 최댓값과 최솟값 정보를 업데이트한다.
+- 배열을 순회(iterate)함으로써 값을 구할 수 있음.
+- 원소를 하나씩 확인할 경우, 시간 복잡도 O(N)으로 확인할 수 있음.
+
+```js
+let fs = require('fs');
+
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let n = Number(input[0]);
+let arr = input[1].split(' ').map(Number);
+
+/*
+모든 정수는 -1,000,000보다 크거나 같고,
+1,000,000보다 작거나 같은 정수이다.
+*/
+
+let minValue = 1000001; // 일단 큰 수로 초기화
+let maxValue = -1000001; // 일단 작은 수로 초기화
+
+for (let i = 0; i < n; i++) {
+  if (minValue > arr[i]) minValue = arr[i];
+  if (maxValue < arr[i]) maxvalue = arr[i];
+}
+
+console.log(minValue, maxValue);
+```
+
+#### 해설 풀이 2
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+let n = Number(input[0]);
+let data = input[1].split(' ').map(x => Number(x));
+
+let minValue = data.reduce((a, b) => Math.min(a, b));
+let maxValue = data.reduce((a, b) => Math.max(a, b));
+
+console.log(minValue + " " + maxValue);
+```
+- `reduce`함수가 `data`배열의 각 요소에 대해 콜백 함수인 `(a,b) => Math.min(a,b)`를 실행한다.
+- a는 누적값, b는 현재 배열 요소
+- `Math.min(a,b)는 a와 b중 더 작은 값을 반환한다.
+- 첫 번째 반복에서 a는 배열의 첫 번째 요소, b는 두 번째 요소다. 함수는 이 둘 중 더 작은 값을 반환한다.
+- 이후 반복에서 a는 이전 반복의 결과값(누적된 최솟값), b는 다음 배열 요소다. 
+
+
 
