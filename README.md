@@ -834,6 +834,7 @@ console.log(minValue + " " + maxValue);
 
 ### 최댓값
 #### 링크 : https://www.acmicpc.net/problem/10818
+#### 문제 : N개의 정수가 주어진다. 이때, 최솟값과 최댓값을 구하는 프로그램을 작성하시오.
 #### 오답
 ```js
 let fs = require('fs');
@@ -842,7 +843,7 @@ let input = fs.readFileSync('/dev/stdin').toString().split('\n').map(Number);
 
 let maxNumber = Math.max(...input);
 
-let answer = `${maxNumber}\n${input.findIndex((num)=>num === maxNumber + 1)}`
+let answer = `${maxNumber}\n${input.findIndex((num)=>num === maxNumber + 1)}` // input.indexOf(max) + 1 도 가능
 
 console.log(answer);
 ```
@@ -859,4 +860,65 @@ const input = require("fs")
   .map((el) => +el); // 숫자로 변환
 ```
 
- 
+### 나머지
+#### 링크 : https://www.acmicpc.net/problem/3052
+#### 문제 : 
+두 자연수 A와 B가 있을 때, A%B는 A를 B로 나눈 나머지 이다. 예를 들어, 7, 14, 27, 38을 3으로 나눈 나머지는 1, 2, 0, 2이다. 
+수 10개를 입력받은 뒤, 이를 42로 나눈 나머지를 구한다. 그 다음 서로 다른 값이 몇 개 있는지 출력하는 프로그램을 작성하시오.
+#### 오답
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().split('\n').map(Number).map((num)=>num % 42);
+console.log([...new Set(input)].length);
+```
+- 입력 값의 글자 뒤에 있는 공백을 제거하기 위해, trim()을 사용해야 한다.
+- (틀린 부분은 아니지만) set의 길이를 구할 땐 .size를 사용할 수 있다.
+
+### 평균은 넘겠지
+#### 링크 : https://www.acmicpc.net/problem/4344
+#### 문제 : 대학생 새내기들의 90%는 자신이 반에서 평균은 넘는다고 생각한다. 당신은 그들에게 슬픈 진실을 알려줘야 한다.
+
+임시저장
+```
+let fs = require("fs");
+
+let input = fs
+  .readFileSync("/dev/stdin")
+  .toString()
+  .split("\n")
+  .map((item) => [item]);
+
+let passRatioArr = input.shift().map((arr) => {
+  let line = arr.split(" ").map(Number);
+  let studentsNum = line[0];
+  let average = line.shift().reduce((acc, num) => acc + num) / studentsNum;
+  let passed = line.filter((score) => score > average);
+
+  return (passed.length / studentsNum).toFixed(3);
+});
+
+let answer = passRatioArr.map((passRatio) => `${passRatio}\n`);
+
+console.log(answer);
+
+
+let input = fs
+  .readFileSync("/dev/stdin")
+  .toString()
+  .split("\n")
+  .map((item) => item.split(" ").map(Number));
+
+input.shift(); // 첫 번째 줄은 필요 없으므로 제거
+
+let passRatioArr = input.map((line) => {
+  let studentsNum = line.shift();
+  let average = line.reduce((acc, num) => acc + num, 0) / studentsNum;
+  let passed = line.filter((score) => score > average);
+
+  return ((passed.length / studentsNum) * 100).toFixed(3);
+});
+
+let answer = passRatioArr.map((passRatio) => `${passRatio}%\n`);
+
+console.log(answer.join(""));
+```
