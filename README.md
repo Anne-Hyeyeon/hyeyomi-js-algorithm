@@ -878,18 +878,18 @@ console.log([...new Set(input)].length);
 #### 링크 : https://www.acmicpc.net/problem/4344
 #### 문제 : 대학생 새내기들의 90%는 자신이 반에서 평균은 넘는다고 생각한다. 당신은 그들에게 슬픈 진실을 알려줘야 한다.
 
-임시저장
-```
+#### 오답
+```js
 let fs = require("fs");
 
 let input = fs
   .readFileSync("/dev/stdin")
   .toString()
   .split("\n")
-  .map((item) => [item]);
+  .map((item) => [item]); // [["1 2 3"], ["4 5 6"]]
 
 let passRatioArr = input.shift().map((arr) => {
-  let line = arr.split(" ").map(Number);
+  let line = arr.split(" ").map(Number); // arr은 배열이기 때문에 split(" ") 불가능.
   let studentsNum = line[0];
   let average = line.shift().reduce((acc, num) => acc + num) / studentsNum;
   let passed = line.filter((score) => score > average);
@@ -900,7 +900,11 @@ let passRatioArr = input.shift().map((arr) => {
 let answer = passRatioArr.map((passRatio) => `${passRatio}\n`);
 
 console.log(answer);
+```
 
+#### 오답 2
+```js
+let fs = require("fs");
 
 let input = fs
   .readFileSync("/dev/stdin")
@@ -911,14 +915,37 @@ let input = fs
 input.shift(); // 첫 번째 줄은 필요 없으므로 제거
 
 let passRatioArr = input.map((line) => {
-  let studentsNum = line.shift();
-  let average = line.reduce((acc, num) => acc + num, 0) / studentsNum;
-  let passed = line.filter((score) => score > average);
+  let studentsNum = line.shift(); // 학생 수
+  let average = line.reduce((acc, num) => acc + num, 0) / studentsNum; // 평균 점수
+  let passed = line.filter((score) => score > average); // 평균 이상의 점수를 받은 학생 수
 
-  return ((passed.length / studentsNum) * 100).toFixed(3);
+  return ((passed.length / studentsNum) * 100).toFixed(3) + "%";
 });
 
-let answer = passRatioArr.map((passRatio) => `${passRatio}%\n`);
-
-console.log(answer.join(""));
+console.log(passRatioArr.join("\n"));
 ```
+- 이게 별 하나짜리라니 난 어떻게 해야하지 으허엉
+#### 정답
+```js
+let fs = require("fs");
+
+let input = fs
+  .readFileSync("/dev/stdin")
+  .toString()
+  .trim()  // 공백 제거
+  .split("\n")
+  .map((line) => line.split(" ").map(Number));
+
+input.shift(); 
+
+let passRatioArr = input.map((scores) => {
+  let studentsNum = scores.shift(); // 첫 번째 요소는 학생 수
+  let average = scores.reduce((acc, score) => acc + score, 0) / studentsNum;
+  let passed = scores.filter((score) => score > average).length;
+
+  return ((passed / studentsNum) * 100).toFixed(3) + "%";
+});
+
+console.log(passRatioArr.join("\n"));
+```
+
