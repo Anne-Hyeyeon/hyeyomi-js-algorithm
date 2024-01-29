@@ -989,6 +989,23 @@ const getFakeScoreSum = scores.reduce((acc, cur) => {
 
 const fakeScoreAvg = getFakeScoreSum / Number(subjectnumb);
 
+
+
 console.log(fakeScoreAvg);
 ```
 - Math.max 안에는 배열 넣는 거 아님. 배열 안에 있는 number값 요소들을 넣어줘야 함. 따라서 **스프레드 연산자** 사용!
+
+
+### 숫자의 합
+#### 링크 : https://www.acmicpc.net/problem/11720
+#### 문제 : N개의 숫자가 공백 없이 쓰여있다. 이 숫자를 모두 합해서 출력하는 프로그램을 작성하시오.
+#### 입력 : 첫째 줄에 숫자의 개수 N (1 ≤ N ≤ 100)이 주어진다. 둘째 줄에 숫자 N개가 공백없이 주어진다.
+#### 출력 : 입력으로 주어진 숫자 N개의 합을 출력한다.
+#### 정답 (내 코드)
+```js
+let fs = require('fs')
+let input = fs.readFileSync('/dev/stdin').toString().trim().split('\n')
+let arr = input[1].split('').map(Number);
+let sum = arr.reduce((acc, cur) => {return acc + cur}, 0)
+console.log(sum);
+```
