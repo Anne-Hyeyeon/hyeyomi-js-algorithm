@@ -999,8 +999,8 @@ console.log(fakeScoreAvg);
 ### 숫자의 합
 #### 링크 : https://www.acmicpc.net/problem/11720
 #### 문제 : N개의 숫자가 공백 없이 쓰여있다. 이 숫자를 모두 합해서 출력하는 프로그램을 작성하시오.
-#### 입력 : 첫째 줄에 숫자의 개수 N (1 ≤ N ≤ 100)이 주어진다. 둘째 줄에 숫자 N개가 공백없이 주어진다.
-#### 출력 : 입력으로 주어진 숫자 N개의 합을 출력한다.
+-  입력 : 첫째 줄에 숫자의 개수 N (1 ≤ N ≤ 100)이 주어진다. 둘째 줄에 숫자 N개가 공백없이 주어진다.
+-  출력 : 입력으로 주어진 숫자 N개의 합을 출력한다.
 #### 정답 (내 코드)
 ```js
 let fs = require('fs')
@@ -1009,3 +1009,76 @@ let arr = input[1].split('').map(Number);
 let sum = arr.reduce((acc, cur) => {return acc + cur}, 0)
 console.log(sum);
 ```
+#### 정답 코드 예시 
+```js
+let fs = require('fs')
+let input = fs.readFileSync('/dev/stdin').toString().trim().split('\n')
+
+let stringNumbers = input[1];
+
+let answer = 0;
+for (let x of stringNumbers) { // string에 있는 문자열을 하나씩 확인한다.
+  answer += Number(x);
+}
+console.log(answer);
+```
+
+### 문자열 반복
+#### 링크 : https://www.acmicpc.net/problem/2675
+#### 문제 : 
+- 문자열 S를 입력받은 후에, 각 문자를 R번 반복해 새 문자열 P를 만든 후 출력하는 프로그램을 작성하시오. 즉, 첫 번째 문자를 R번 반복하고, 두 번째 문자를 R번 반복하는 식으로 P를 만들면 된다. S에는 QR Code "alphanumeric" 문자만 들어있다.
+QR Code "alphanumeric" 문자는 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\$%*+-./: 이다.
+#### 오답 (내 코드)
+```js
+
+let fs = require("fs");
+let input = fs.readFilySync("/dev/stdin").toString().trim().split("\n");
+let cases = input.shift();
+let answer = [];
+
+let repeatingString = cases.forEach((item) => {
+  const lineInput = item.split(" ");
+  const repeatingNum = Number(lineInput[0]);
+  const stringArr = lineInput[1].split("");
+  let repeatedString = [];
+
+  stringArr.forEach((string) => {
+    Array(repeatingNum).forEach(() => repeatedString.push(string));
+  });
+
+  answer.push(repeatingString.join("\n"));
+});
+
+console.log(answer);
+
+```
+- `shift()`의 잘못된 사용 : shift() 메서드는 배열에서 첫 번째 요소를 제거시키고, 그 제거된 요소를 보여준다. (원본 배열 변경)
+- join("\n")의 잘못된 사용 : 해당 위치에 join을 넣으면 문자열 사이에 개행이 들어간다. (join은 배열의 요소 사이에 지정된 구분자를 넣어 하나의 문자열로 결합한다.)
+
+#### 정답 (수정 후)
+```js
+let fs = require("fs");
+let input = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
+
+input.shift();
+let arr = [];
+
+input.forEach((item) => {
+  const lineInput = item.split(" ");
+  const repeatingNum = Number(lineInput[0]);
+  const stringArr = lineInput[1].split("");
+  let repeatedString = [];
+
+  stringArr.forEach((string) => {
+    repeatedString.push(string.repeat(repeatingNum));
+  });
+
+  arr.push(repeatedString.join(""));
+});
+
+const answer = arr.join("\n");
+
+console.log(answer);
+```
+- join 은 사이사이에 끼워넣는 거 생각하기.
+- repeat(반복횟수) 사용하면 `문자열` 반복 가능.
