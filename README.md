@@ -1082,3 +1082,54 @@ console.log(answer);
 ```
 - join 은 사이사이에 끼워넣는 거 생각하기.
 - repeat(반복횟수) 사용하면 `문자열` 반복 가능.
+
+
+### 상수
+#### 링크 : https://www.acmicpc.net/problem/2908
+#### 문제 : 
+- 상근이의 동생 상수는 수학을 정말 못한다. 상수는 숫자를 읽는데 문제가 있다. 이렇게 수학을 못하는 상수를 위해서 상근이는 수의 크기를 비교하는 문제를 내주었다. 상근이는 세 자리 수 두 개를 칠판에 써주었다. 그 다음에 크기가 큰 수를 말해보라고 했다.
+- 상수는 수를 다른 사람과 다르게 거꾸로 읽는다. 예를 들어, 734와 893을 칠판에 적었다면, 상수는 이 수를 437과 398로 읽는다. 따라서, 상수는 두 수중 큰 수인 437을 큰 수라고 말할 것이다.
+- 두 수가 주어졌을 때, 상수의 대답을 출력하는 프로그램을 작성하시오.
+#### 풀이 과정
+1. 세 자리 수 두 개 각각의 숫자 순서 변경 (숫자에는 0이 포함되어 있지 않음) - 숫자를 쪼개야 함.
+2. 순서 바꾼 숫자를 비교
+3. 더 큰 숫자를 출력
+#### 정답 (내 코드)
+```js
+let fs = require('fs');
+let [numA, numB] = fs.readFileSync('/dev/stdin').toString().split(' ').map((stringNum)=>{
+    let [a, b, c] = stringNum.split('');
+    let newNum = c + b + a;
+    return newNum;
+})
+
+let answer = ((numA - numB) > 0) ? numA : numB
+
+console.log(answer);
+```
+- 대박!! 한 번에 맞았다!!!!!!!!!!!!!!!!!으아아ㅏ
+- 응? 근데 나 숫자변환 안 했는데..뭐냐...
+- JavaScript에서 문자열 비교는 사전순으로 이루어지므로, 숫자로 변환하지 않아도 문자열의 크기 비교가 가능하다. 이 경우, 문자열로 구성된 숫자가 사전순으로 비교되기 때문에, 숫자를 거꾸로 읽어도 사전순 비교가 유효하다.
+- 그리고 굳이 (numA - numB) > 0) 와 같이 쓸 필요 없다....문제 풀다가 긴장했나 보다...
+
+#### 정답 (다른 사람 코드)
+```js
+const inputData = require('fs')
+  .readFileSync(0, 'utf8')
+  .toString()
+  .trim()
+  .split(' ');
+
+const firstNum = inputData[0].split('').reverse().join('');
+const secondNum = inputData[1].split('').reverse().join('');
+
+console.log(
+  Number(firstNum) < Number(secondNum) ? Number(secondNum) : Number(firstNum)
+);
+```
+- reverse는 배열 요소의 순서를 뒤집는다.
+- 뒤집은 요소를 join을 이용해서 결합한다.
+
+- 
+
+- `reverse()`와 `join('')` 메소드를 이용해서 풀어냈다.
