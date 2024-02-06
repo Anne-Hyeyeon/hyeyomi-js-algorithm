@@ -1144,5 +1144,95 @@ console.log(
 - 첫 값 제외시킨 각 항목에 대해 반복문을 실행한다.
 - 반복문 안에서는, 각 문자를 쪼갠 다음 배열에 넣는다.
 - reduce의 리듀서 함수를 통해 문자 정보를 빈 배열에 넣고, 그 뒤에 배열에 있는 단어가 또 나오면 바로 return false하게 만든다
--
-.  
+
+#### 내 코드 (오답)
+```js
+let fs = require("fs");
+let input = fs.readFilySync("/dev/stdin").toString().trim().split("\n");
+
+input.shift();
+let answer = 0;
+
+input.forEach((item) => {
+  const letterArr = item.split("");
+  let result = letterArr.reduce((acc, curLetter) => {
+    if (acc.includes(curLetter)) return [];
+    acc.push(curLetter);
+    return acc;
+  }, []);
+
+  if (result.length > 0) answer += 1;
+});
+
+console.log(answer);
+```
+- 내 함수는 includes를 사용해 acc에 문제가 포함되어있는지 확인하고 있지만, 이는 문자가 이전에 이미 나타났는지만을 검사하고 해당 문자가 연속적으로 나와있는지는 검사하지 않음.
+
+#### 아이디어 수정
+- 문자 내에서 문자열을 순회하기 위해 `for...of` 문 사용
+- 이전 문자와 연속되지 않을 경우 그룹 단어 조건 충족 X <- 조건 반영
+
+#### 정답 (수정 후)
+```js
+let fs = require("fs");
+let input = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
+
+input.shift();
+let answer = 0;
+
+input.forEach((word) => {
+  let isGroupWord = true;
+  let existChars = [];
+  let prevChar = null;
+
+  for (let char of word) {
+    if (existChars.includes(char)) {
+      if (char !== prevChar) {
+        isGroupWord = false;
+        break;
+      }
+    } else {
+      existChars.push(char);
+      prevChar = char;
+    }
+  }
+
+  if (isGroupWord) answer += 1;
+});
+
+console.log(answer);
+```
+
+#### 해설 코드
+```js
+// 그룹 단어인지 체크하는 함수
+function check(data) {
+  let setData = new Set(data[0]);
+  for (let i = 0; i < data.length - 1; i++) {
+    // 오른쪽 단어와 다르다면
+    if (data[i] != data[i + 1]) {
+      // 이미 등장한 적 있는 알파벳이라면
+      if (setData.has(data[i + 1])) {
+        return false;
+      } else {
+        setData.add(data[i + 1]);
+      }
+    }
+  }
+  return true;
+}
+
+let fs = require("fs");
+let input = fs.readFileSync("/dev/stdin").toString().split("\n");
+
+let count = Number(input[0]); // 3
+let sum = 0;
+
+for (let i = 1; i <= count; i++) {
+  let data = input[i];
+  if (check(data)) sum += 1; 
+}
+console.log(sum);
+
+```
+
