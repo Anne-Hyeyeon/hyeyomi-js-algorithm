@@ -1236,3 +1236,14 @@ console.log(sum);
 
 ```
 
+### 그대로 출력하기 
+#### 링크 : https://www.acmicpc.net/problem/11718
+#### 문제 : 입력 받은 대로 출력하는 프로그램을 작성하시오.
+#### 정답 (내 코드)
+```js
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString()
+console.log(input);
+```
+- 핵심 : input을 toString()을 이용해 문자화 한 다음, 바로 출력하면 split과 join 메소드를 쓰지 않아도 그대로 출력하는 게 가능하다.
+- join 메서드는 문자열 또는 배열에 쓰인다. `Array.prototype.join()`
