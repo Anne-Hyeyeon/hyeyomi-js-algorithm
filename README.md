@@ -1441,7 +1441,7 @@ let reversed = stack.slice().reverse();
 - 자바스크립트에서는 배열을 사용하면 시간적으로 매우 비효율적임.
 - `Dictionary 자료형`을 이용하면 간단하게 큐를 구현할 수 있다.
 
-### 큐 실제 구현
+### 큐 실제 구현 (그림으로 보여주고 싶다 ㅠㅠ)
 ```js
 class Queue {
   constructor() {
@@ -1454,8 +1454,8 @@ class Queue {
     this.items[this.tailIndex] = item; // 넣는 item을 맨 끝으로
     this.tailIndex++; //  tailIndex를 1 증가시킴
   }
-  dequeue(item) {
-    const item = this.items[this.headIndex] // 현재 헤드인덱스에 새 아이템이 담김
+  dequeue() {
+    const item = this.items[this.headIndex] // 헤드인덱스에 현재 있는 아이템을 item 에담음
     delete this.items[this.headIndex]; // 현재 헤드인덱스에 있는 아이템을 제거
     this.headIndex++; // 헤드인덱스 1 증가시킴
     return item;
@@ -1484,4 +1484,94 @@ queue.dequeue();
 while (queue.getLength() != 0) {
   console.log(queue.dequeue());
 }
+```
+
+## 04. 트리(Tree)와 우선 순위 (Priority Queue)
+### 트리(Tree)
+- **계층적 구조**를 표현할 때 사용할 수 있는 자료구조. Like 가계도!
+- 나무(tree)의 형태를 뒤집은 것과 같이 생김.
+
+### 트리 용어 정리
+- **루트 노드(root node)** : 부모가 없는 최상의 노드
+- **단말 노드(leaf node)** : 자식이 없는 노드 (더이상 내려갈 수 없는 노드)
+- 부모 자식 관계
+- 형제 관계 : 같은 부모를 가지고 있는 노드들의 관계를 칭함.
+- **깊이(depth)**  : 루트 노드에서의 길이(length)
+- **길이(length)** : 출발 노드에서 목적지 노드까지 거쳐야 하는 간선의 수
+- **트리의 높이(height)** : 루트 노드에서 가장 깊은 노드까지의 길이
+
+### 이진 트리(Binary Tree)
+- **최대 2개의 자식**을 가질 수 있는 트리를 말한다.
+
+### 우선순위 큐(Priority Queue)
+- 우선순위에 따라 데이터를 추출하는 자료구조
+- 컴퓨터 운영체제, 온라인 게임 매칭 등에서 활용됨
+- 일반적으로 힙(heap)을 이용해서 구현함.
+- 힙 : 트리를 이용해서 만들 수 있는 자료구조
+  
+### 우선순위 큐 구현 방법 : 
+- 리스트자료형 -> 삽입시간 빠르고  삭제시간 느림. 삽입 시간 O(1), 삭제 시간 O(N), (삽입할 때는 push, 삭제할 때는 어떤 걸 삭제해야 하는지 확인해야 하기 때문)
+- 힙(Heap) -> 삽입시간 O(logN), 삭제시간 : O(logN) 둘 다 logN 보장해줌.
+- 우선순위 큐는  이진트리로 구현하는 게 보통이다.
+
+### 포화 이진 트리(Full Binary Tree)
+- 리프 노드를 제외한 모든 노드가 두 자식을 가지고 있는 트리
+
+### 완전 이진 트리 (Complete Binary Tree)
+- 모든 노드가 왼쪽 자식부터 차근차근 채워진 트리.
+
+### 높이 균형 트리 (Height Balanced Tree)
+- 왼쪽 자식 트리와 오른쪽 자식 트리의 높이가 1 이상 차이나지 않는 트리
+
+### 힙(Heap)
+- 원소들 중 최댓값, 최솟값을 빠르게 찾아내는 자료구조
+- 최대 힙(max heap) : 값이 큰 원소부터 추출
+- 최소 힙(min heap) : 값이 작은 원소부터 추출
+- 힙은 원소의 삽입과 삭제를 위해 O(logN)의 수행 시간을 요구함
+- 단순히 N개 데이터를 힙에 넣었따가 모두 꺼내는 작업은 정렬과 동일하다. (시간 복잡도 O(NlogN))
+
+### 최대 힙 (Max Heap)
+- 부모 노드가 자식 노드보다 값이 큰 완전 이진 트리
+- 루트 노드가 전체 트리에서 가장 큰 값을 가진다
+
+### 최소 힙 (Min Heap)
+- 부모 노드가 자식 노드의 키 값보다 항상 크다
+- 루트 노드가 전체 트리에서 가장 작은 값을 가진다. 
+
+### 힙의 특징
+- 힙은 완전 이진 트리 자료구조를 따른다.
+- 우선순위가 높은 노드가 루트에 위치한다.
+
+### 최소 힙 구성 함수 : Heapify
+- (상향식) 부모로 거슬러 올라가며, 부모보다 자신이 더 작은 경우에 위치 바꿈.
+
+### 힙에 새로운 원소가 삽입되면?
+- (상향식) 부모로 거슬러 올라감. 부모보다 자신이 더 작은 경우 취이 교체
+- 새로운 원소가 삽입되었다고 해도 O(logN) 시간 복잡도로 힙 성질을 유지하게 할 수 있다.
+
+### 힙에 새로운 원소가 삭제될 때
+- 원소가 제거되었을 때 O(logN)의 시간 복잡도로 힙 성질을 유지하게 할 수 있다.
+- 원소를 제거할 때는 가장 마지막 노드가 루프 노드의 위치에 오르도록 한다.
+
+### 힙의 특징
+- 거슬러 갈 때마다 처리해야 하는 범위에 포함된 원소의 개수는 절반씩 줄어듦.
+- 따라서 삽입, 삭제에 대한 시간 복잡도는 O(NlogN)
+
+### JS의 힙 라이브러리
+- JS는 우선순위 큐 라이브러리 제공 X
+- https://github.com/n\priorityqueuejs
+```js
+var PriorityQueue = require('priorityqueuejs');
+
+var queue = new PriorityQueue(function(a, b) {
+  return a.cash - b.cash;
+});
+
+queue.enq({ cash: 250, name: 'Valentina' });
+queue.enq({ cash: 300, name: 'Jano' });
+queue.enq({ cash: 150, name: 'Fran' });
+queue.size(); // 3
+queue.peek(); // { cash: 300, name: 'Jano' }
+queue.deq(); // { cash: 300, name: 'Jano' }
+queue.size(); // 2
 ```
