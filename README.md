@@ -1422,4 +1422,66 @@ let reversed = stack.slice().reverse();
 // 여기서 slice()는 배열의 얕은 복사본을 생성함.
 ```
 
+## 03. JS 큐 (queue)
+- 코딩 테스트 출제 빈도 높음.
+### 정의
+- 먼저 삽입된 데이터가 먼저 추출되는 자료구조. (선입선출) 순서대로 입장!
+- 예시 : 게임 대기 큐는 먼저 대기한 사람이 먼저 게임에 매칭된다.
+- **공평한 자료구조**라고 설명된다.
+- 꼬리에 자료를 넢어서, 머리로 자료가 나오는 구조 
+- 탐색 알고리즘 (너비 우선 탐색, 최단 경로 알고리즘)에서 널리 사용됨.
 
+### 연결 리스트로 큐 구현하기
+- 큐를 연결 리스트로 구현해야 삽입과 삭제에 있어 O(1)을 보장할 수 있다.
+- 머리, 꼬리 두 개의 **포인터**를 가진다.
+- 머리(head) : 남아있는 원소 중 **가장 먼저 들어온 데이터**를 가리키는 포인터
+- 꼬리(tail) : 남아있는 원소 중 **가장 마지막에 들어온 데이터**를 가리키는 포인터
+- 삽입할 때는 꼬리 위치에서 데이터를 넣는다.
+- 삭제할 때는 머리 위치에서 데이터를 꺼낸다.
+- 자바스크립트에서는 배열을 사용하면 시간적으로 매우 비효율적임.
+- `Dictionary 자료형`을 이용하면 간단하게 큐를 구현할 수 있다.
+
+### 큐 실제 구현
+```js
+class Queue {
+  constructor() {
+    this.items = {};
+    this.headIndex = 0;
+    this.tailIndex = 0;
+
+  }
+  enqueue(item) {
+    this.items[this.tailIndex] = item; // 넣는 item을 맨 끝으로
+    this.tailIndex++; //  tailIndex를 1 증가시킴
+  }
+  dequeue(item) {
+    const item = this.items[this.headIndex] // 현재 헤드인덱스에 새 아이템이 담김
+    delete this.items[this.headIndex]; // 현재 헤드인덱스에 있는 아이템을 제거
+    this.headIndex++; // 헤드인덱스 1 증가시킴
+    return item;
+  }
+  peek() {
+    return this.items[this.headIndex];
+  }
+  getLength() {
+    return this.tailIndex - this.headIndex;
+  }
+}
+
+queue = new Queue();
+
+// 삽입 (5) - 삽입 (2) - 삽입 (3) - 삽입 (7) - 삭제() - 삽입 (1) - 삽입(4) - 삭제 ()
+queue.enqueue(5);
+queue.enqueue(2);
+queue.enqueue(3);
+queue.enqueue(7);
+queue.dequeue();
+queue.enqueue(1);
+queue.enqueue(4);
+queue.dequeue();
+
+// 먼저 들어온 순서대로 출력
+while (queue.getLength() != 0) {
+  console.log(queue.dequeue());
+}
+```
