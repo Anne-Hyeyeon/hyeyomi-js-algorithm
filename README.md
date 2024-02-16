@@ -1559,7 +1559,7 @@ while (queue.getLength() != 0) {
 
 ### JS의 힙 라이브러리
 - JS는 우선순위 큐 라이브러리 제공 X
-- https://github.com/n\priorityqueuejs
+- https://github.com/n\priorityqueuejs 여기서 받아오자!
 ```js
 var PriorityQueue = require('priorityqueuejs');
 
@@ -1575,3 +1575,19 @@ queue.peek(); // { cash: 300, name: 'Jano' }
 queue.deq(); // { cash: 300, name: 'Jano' }
 queue.size(); // 2
 ```
+
+## 05. 그래프(Graph)의 표현
+### 그래프(Graph)란 
+- 사물을 정점(vertex)과 간선(edge)으로 나타내기 위한 도구
+- 그래프 구현의 두 가지 방식
+  1) 인접 행렬(adjacency matrix) : 2차원 배열 사용 방식
+  2) 인접 리스트(adjacency list) : 연결 리스트 이용 방식
+
+### 인접 행렬(Adjacency Matrix)
+- 인접 행렬에서는 그래프를 2차원 배열로 표현한다.
+- 노드에서 노드로 가기 위한 비용을 표시함
+
+### 인접 행렬 - 무방향 무가중치 그래프 
+- 모든 간선이 방향성을 가지지 않는 그래프
+- 모든 간선에 가중치가 없는 그래프를 무가중치 그래프라고 한다.
+- 무방향 무가중치 그래프가 주어졌을 때, 연결되어 있는 상황을 인접 행렬로 출력할 수 있다.
