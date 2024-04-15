@@ -1609,7 +1609,7 @@ queue.size(); // 2
 ![image](https://github.com/Anne-Hyeyeon/hyeyomi-js-algorithm/assets/93920435/91418d52-0e14-49d0-8f5b-b6adee3a747c)
 
 ### 그래프의 시간 복잡도
-- 1) 인접 행렬 : 모든 정점들의 연결 여부를 저장해 O(V^2^)의 공간을 요구한다. 따라서 공간 효율성이 떨어지지만, 두 노드의 연결 여부를 O(1)에 확인할 수 있다.
+- 1) 인접 행렬 : 모든 정점들의 연결 여부를 저장해 O(V<sup>2</sup>)의 공간을 요구한다. 따라서 공간 효율성이 떨어지지만, 두 노드의 연결 여부를 O(1)에 확인할 수 있다.
 - 2) 인접 리스트 : 연결된 간선의 정보만을 저장하여  O(V + E)의 공간을 요구한다. 따라서 공간 효율성이 우수하지만, 두 노드의 연결 여부를 확인하기 위해 O(V)의 시간이 필요하다.
 ![image](https://github.com/Anne-Hyeyeon/hyeyomi-js-algorithm/assets/93920435/1a61d7dd-93bb-41de-9021-f9bfd6250279)
 
